@@ -11,4 +11,9 @@ components:
 clean:
 	rm -fr build components template.js
 
-.PHONY: clean
+all:
+	clear
+	make clean
+	make
+
+.PHONY: clean all
