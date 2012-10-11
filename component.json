@@ -1,10 +1,15 @@
 {
   "name": "data-table",
   "repo": "retrofox/data-table",
-  "description": "Table data manager. Allow us add/remove rows, sort, pager, and filter.",
-  "version": "0.0.1",
+  "description": "Table data manager. It allow us add/remove rows, sort, pager, and filter.",
+  "version": "0.1.0",
   "keywords": [],
-  "dependencies": {},
+  "dependencies": {
+    "component/inherit": "*",
+    "component/emitter": "*",
+    "visionmedia/superagent": "*",
+    "component/pager": "*"
+  },
   "development": {},
   "scripts": [
     "index.js",
