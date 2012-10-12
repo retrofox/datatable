@@ -38,3 +38,12 @@ DataTable.prototype.add = function(row){
   
 };
 
+/**
+ * Render component
+ *
+ * @api public
+ */
+
+DataTable.prototype.render = function(){
+  return this.el;
+};
