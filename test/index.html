@@ -14,11 +14,16 @@
     </style>
   </head>
   <body>
-    <title>DataTable</title>
+    <div id="placeholder"></div>
+
     <script src="../build/build.js"></script>
     <script>
       var o = require('component-jquery');
       var DataTable = require('data-table');
+
+      var players = new DataTable();
+      o('#placeholder').append(players.render());
+
     </script>
   </body>
 </html>
