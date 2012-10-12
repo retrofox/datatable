@@ -1,10 +1,11 @@
+
 /**
  * Component dependencies
  */
 
 var inherit = require('inherit')
   , o = require('jquery')
-  , emitter = require('emitter')
+  , Emitter = require('emitter')
   , request = require('superagent')
   , pager = require('pager');
 
@@ -15,4 +16,12 @@ var inherit = require('inherit')
 module.exports = DataTable;
 
 function DataTable(){
+  if (!(this instanceof DataTable)) return new DataTable;
 }
+
+/**
+ * Inherits from `Emitter.prototype`.
+ */
+
+DataTable.prototype.__proto__ = Emitter.prototype;
+
