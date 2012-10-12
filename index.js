@@ -25,3 +25,13 @@ function DataTable(){
 
 DataTable.prototype.__proto__ = Emitter.prototype;
 
+/**
+ * Add new row to DataTable
+ *
+ * @api public
+ */
+
+DataTable.prototype.add = function(row){
+  
+};
+
