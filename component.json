@@ -8,7 +8,8 @@
     "component/inherit": "*",
     "component/emitter": "*",
     "visionmedia/superagent": "*",
-    "component/pager": "*"
+    "component/pager": "*",
+    "component/jquery": "*"
   },
   "development": {},
   "scripts": [
