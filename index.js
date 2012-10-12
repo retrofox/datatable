@@ -17,6 +17,9 @@ module.exports = DataTable;
 
 function DataTable(){
   if (!(this instanceof DataTable)) return new DataTable;
+
+  // Render template
+  this.el = o(require('./template'));
 }
 
 /**
