@@ -24,7 +24,13 @@ module.exports = DataTable;
 
 function DataTable(opts){
   if (!(this instanceof DataTable)) return new DataTable(opts);
+
+  // Options
   this.opts = opts || {};
+
+  // Options: paginator
+  this.opts.perpage = this.opts.perpage || 5;
+  this.opts.page = this.opts.page || 0;
 
   // get markup template
   this.el = o(require('./template'));
@@ -50,24 +56,6 @@ DataTable.prototype.__proto__ = Emitter.prototype;
 DataTable.prototype.add = function(row){
   if (!row.length) return this;
   this.rows.push(row);
-};
-
-/**
- * Render the table body
- *
- * @api private
- */
-
-DataTable.prototype.body = function(){
-  var buffer = [];
-  buffer = this.rows;
-
-  for (var j = 0, row = buffer[0]; j < buffer.length; j++, row = buffer[j]) {
-    for (var i = 0, tr = o('<tr>'); i < row.length; i++) {
-      tr.append(o('<td>', { text: row[i] }));
-    }
-    this.el.find('tbody').append(tr);
-  }
 };
 
 /**
@@ -113,6 +101,23 @@ DataTable.prototype.header = function(cols){
 };
 
 /**
+ * Render the table body
+ *
+ * @api private
+ */
+
+DataTable.prototype.body = function(){
+  var op = this.opts;
+  var buffer = this.rows.splice(op.page * op.perpage, op.perpage);
+  for (var j = 0, row = buffer[0]; j < buffer.length; j++, row = buffer[j]) {
+    for (var i = 0, tr = o('<tr>'); i < row.length; i++) {
+      tr.append(o('<td>', { text: row[i] }));
+    }
+    this.el.find('tbody').append(tr);
+  }
+};
+
+/**
  * Add paginator to table footer
  *
  * Emit `pager` event
@@ -130,9 +135,9 @@ DataTable.prototype.paginator = function(opts){
   pager.el.appendTo(this.el.find('tfoot td'));
 
   pager
-    .total(opts.total || this.total)
-    .perpage(opts.perpage || 5)
-    .select(opts.page || 0)
+    .total(this.rows.length || this.total)
+    .perpage(opts.perpage)
+    .select(opts.page)
     .render();
 
   // Emit `pager` event
@@ -146,7 +151,7 @@ DataTable.prototype.paginator = function(opts){
  */
 
 DataTable.prototype.render = function(){
-  this.paginator();
+  this.paginator(this.opts);
   this.body();
   return this.el;
 };
