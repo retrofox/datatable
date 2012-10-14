@@ -56,6 +56,7 @@ DataTable.prototype.__proto__ = Emitter.prototype;
 DataTable.prototype.add = function(row){
   if (!row.length) return this;
   this.rows.push(row);
+  return this;
 };
 
 /**
@@ -92,7 +93,6 @@ DataTable.prototype.header = function(cols){
   }
 
   this.el.find('tfoot tr td').attr('colspan', cols.length);
-
   return this;
 };
 
@@ -103,9 +103,11 @@ DataTable.prototype.header = function(cols){
  */
 
 DataTable.prototype.body = function(){
-  var op = this.opts;
-  var buffer = this.rows.splice(op.page * op.perpage, op.perpage);
-  for (var j = 0, row = buffer[0]; j < buffer.length; j++, row = buffer[j]) {
+  var ini = this.opts.page * this.opts.perpage;
+  var end = Math.min(ini + this.opts.perpage, this.rows.length);
+
+  this.el.find('tbody').empty();
+  for (var j = ini, row = this.rows[ini]; j < end; j++, row = this.rows[j]) {
     for (var i = 0, tr = o('<tr>'); i < row.length; i++) {
       tr.append(o('<td>', { text: row[i] }));
     }
@@ -119,9 +121,6 @@ DataTable.prototype.body = function(){
  * Emit `pager` event
  *
  * @param {Object} opts pager options
- *  - perpage {Number}: rows per page
- *  - page {Number}: current page
- *  - total {Number}
  * @api private
  */
 
@@ -131,13 +130,13 @@ DataTable.prototype.paginator = function(opts){
   pager.el.appendTo(this.el.find('tfoot td'));
 
   pager
-    .total(this.rows.length || this.total)
+    .total(opts.total || this.rows.length)
     .perpage(opts.perpage)
     .select(opts.page)
     .render();
 
   // Emit `pager` event
-  pager.on('show', this.onshow.bind(this));
+  pager.on('show', this.onpager.bind(this));
 };
 
 /**
@@ -147,7 +146,9 @@ DataTable.prototype.paginator = function(opts){
  * @api public
  */
 
-DataTable.prototype.onshow = function(page){
+DataTable.prototype.onpager = function(page){
+  this.opts.page = page;
+  this.body();
   this.emit('pager');
 };
 
