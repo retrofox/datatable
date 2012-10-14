@@ -137,7 +137,18 @@ DataTable.prototype.paginator = function(opts){
     .render();
 
   // Emit `pager` event
-  pager.on('show', this.emit.bind(this, 'pager'));
+  pager.on('show', this.onshow.bind(this));
+};
+
+/**
+ * Bind pager `show` event
+ *
+ * @param {Number} page select page
+ * @api public
+ */
+
+DataTable.prototype.onshow = function(page){
+  this.emit('pager');
 };
 
 /**
