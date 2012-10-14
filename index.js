@@ -8,7 +8,7 @@ var inherit = require('inherit')
   , Emitter = require('emitter')
   , request = require('superagent')
   , type = require('type')
-  , pager = require('pager');
+  , Pager = require('pager');
 
 /**
  * Expose `DataTable`
@@ -16,11 +16,19 @@ var inherit = require('inherit')
 
 module.exports = DataTable;
 
+/**
+ * Expose `DataTable`
+ *
+ * @api public
+ */
+
 function DataTable(){
   if (!(this instanceof DataTable)) return new DataTable;
 
-  // Render template
+  // Get markup template
   this.el = o(require('./template'));
+
+  this.total = 0;
 
   return this;
 }
@@ -44,6 +52,7 @@ DataTable.prototype.add = function(row){
   for (var i = 0, tr = o('<tr>'); i < row.length; i++) {
     tr.append(o('<td>', { text: row[i] }));
   }
+  this.total++;
   this.el.find('tbody').append(tr);
   return this;
 };
@@ -89,12 +98,36 @@ DataTable.prototype.header = function(cols){
 };
 
 /**
+ * Add paginator to table footer
+ *
+ * @param {Object} opts pager options
+ *  - perpage {Number}: rows per page
+ *  - page {Number}: current page
+ *  - total {Number}
+ * @api private
+ */
+
+DataTable.prototype.paginator = function(opts){
+  opts = opts || {};
+  var pager = new Pager;
+  pager.el.appendTo(this.el.find('tfoot'));
+
+  pager
+    .total(opts.total || this.total)
+    .perpage(opts.perpage || 5)
+    .select(opts.page || 1)
+    .render();
+};
+
+
+/**
  * Render component
  *
  * @api public
  */
 
 DataTable.prototype.render = function(){
+  this.paginator();
   return this.el;
 };
 
