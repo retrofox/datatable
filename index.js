@@ -94,6 +94,8 @@ DataTable.prototype.header = function(cols){
     }).appendTo(this.el.find('thead tr'));
   }
 
+  this.el.find('tfoot tr td').attr('colspan', cols.length);
+
   return this;
 };
 
@@ -110,7 +112,7 @@ DataTable.prototype.header = function(cols){
 DataTable.prototype.paginator = function(opts){
   opts = opts || {};
   var pager = new Pager;
-  pager.el.appendTo(this.el.find('tfoot'));
+  pager.el.appendTo(this.el.find('tfoot td'));
 
   pager
     .total(opts.total || this.total)
