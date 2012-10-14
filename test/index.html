@@ -18,11 +18,10 @@
 
     <script src="../build/build.js"></script>
     <script>
-      var o = require('component-jquery');
       var DataTable = require('data-table');
 
       var players = new DataTable();
-      o('#placeholder').append(players.render());
+      players.replace('#placeholder');
 
     </script>
   </body>

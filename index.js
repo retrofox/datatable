@@ -47,3 +47,14 @@ DataTable.prototype.add = function(row){
 DataTable.prototype.render = function(){
   return this.el;
 };
+
+/**
+ * Replace markup into the given element
+ *
+ * @param {String|jQuery} el reference element to inject the markup
+ * @api public
+ */
+
+DataTable.prototype.replace = function(el){
+  o(el).append(this.render());
+};
