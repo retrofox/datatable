@@ -8,9 +8,20 @@
     <style>
       body {
         padding: 60px;
-        font: 300 14px "Helvetica Neue", Helvetica, Arial;
+        font: 300 12px "Helvetica Neue", Helvetica, Arial;
         min-height: 1000px;
       }
+
+      table {
+        border: 1px solid #aaa;
+      }
+
+      table tr th {
+        font-weight: normal;
+        padding: 1px 15px;
+        border: 1px solid #aaa;
+      }
+
     </style>
   </head>
   <body>
@@ -19,9 +30,15 @@
     <script src="../build/build.js"></script>
     <script>
       var DataTable = require('data-table');
-
       var players = new DataTable();
-      players.replace('#placeholder');
+
+      players
+        .header([
+          ['Jugadores', true, 1],
+          ['Apodo', true],
+          "Campeón del mundo"
+        ])
+        .replace('#placeholder');
 
     </script>
   </body>
