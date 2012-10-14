@@ -26,10 +26,10 @@ function DataTable(opts){
   if (!(this instanceof DataTable)) return new DataTable(opts);
   this.opts = opts || {};
 
-  // Get markup template
+  // get markup template
   this.el = o(require('./template'));
 
-  this.total = 0;
+  this.rows = [];
 
   return this;
 }
@@ -49,13 +49,25 @@ DataTable.prototype.__proto__ = Emitter.prototype;
 
 DataTable.prototype.add = function(row){
   if (!row.length) return this;
+  this.rows.push(row);
+};
 
-  for (var i = 0, tr = o('<tr>'); i < row.length; i++) {
-    tr.append(o('<td>', { text: row[i] }));
+/**
+ * Render the table body
+ *
+ * @api private
+ */
+
+DataTable.prototype.body = function(){
+  var buffer = [];
+  buffer = this.rows;
+
+  for (var j = 0, row = buffer[0]; j < buffer.length; j++, row = buffer[j]) {
+    for (var i = 0, tr = o('<tr>'); i < row.length; i++) {
+      tr.append(o('<td>', { text: row[i] }));
+    }
+    this.el.find('tbody').append(tr);
   }
-  this.total++;
-  this.el.find('tbody').append(tr);
-  return this;
 };
 
 /**
@@ -135,6 +147,7 @@ DataTable.prototype.paginator = function(opts){
 
 DataTable.prototype.render = function(){
   this.paginator();
+  this.body();
   return this.el;
 };
 
