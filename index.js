@@ -102,6 +102,8 @@ DataTable.prototype.header = function(cols){
 /**
  * Add paginator to table footer
  *
+ * Emit `pager` event
+ *
  * @param {Object} opts pager options
  *  - perpage {Number}: rows per page
  *  - page {Number}: current page
@@ -117,10 +119,12 @@ DataTable.prototype.paginator = function(opts){
   pager
     .total(opts.total || this.total)
     .perpage(opts.perpage || 5)
-    .select(opts.page || 1)
+    .select(opts.page || 0)
     .render();
-};
 
+  // Emit `pager` event
+  pager.on('show', this.emit.bind(this, 'pager'));
+};
 
 /**
  * Render component
