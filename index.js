@@ -22,8 +22,9 @@ module.exports = DataTable;
  * @api public
  */
 
-function DataTable(){
-  if (!(this instanceof DataTable)) return new DataTable;
+function DataTable(opts){
+  if (!(this instanceof DataTable)) return new DataTable(opts);
+  this.opts = opts || {};
 
   // Get markup template
   this.el = o(require('./template'));
