@@ -13,13 +13,27 @@
       }
 
       table {
-        border: 1px solid #aaa;
       }
 
+      table tr td,
       table tr th {
         font-weight: normal;
-        padding: 1px 15px;
-        border: 1px solid #aaa;
+        padding: 3px 15px;
+        border: 1px solid #888;
+        font-size: 13px;
+      }
+
+      table thead tr {
+        background-color: #555;
+        color: white;
+      }
+
+      table tbody tr:nth-child(odd) {
+        background-color: #efe;
+      }
+
+      table tbody tr:nth-child(even) {
+        background-color: #ffe;
       }
 
     </style>
@@ -29,16 +43,49 @@
 
     <script src="../build/build.js"></script>
     <script>
+      // Include `data-table` component
       var DataTable = require('data-table');
+
+      // Create an instance
       var players = new DataTable();
 
-      players
-        .header([
-          ['Jugadores', true, 1],
-          ['Apodo', true],
-          "Campeón del mundo"
-        ])
-        .replace('#placeholder');
+      // Set table header
+      players.header([
+        ['P', true, 1],
+        ['Equipo', true],
+        'PJ',
+        'PG',
+        'PE',
+        'PP',
+        ['Pts', true, true]
+      ]);
+
+      // Enter body data
+      players.addData([
+        [1, "NEWELL`S", 10, 6, 4, 0, 22],
+        [2, "RACING", 10, 6, 2, 2, 20],
+        [3, "BELGRANO", 10, 5, 4, 1, 19],
+        [4, "VÉLEZ SARSFIELD", 10, 5, 2, 3, 17],
+        [5, "BOCA", 10, 5 , 2, 3, 17],
+        [6, "GODOY CRUZ", 10, 5, 1, 4, 16],
+        [7, "ESTUDIANTES", 10, 5, 1, 4, 16],
+        [8, "RIVER", 10, 4, 3, 3, 15],
+        [9, "COLÓN", 10, 4, 3, 3, 15],
+        [10, "LANÚS", 10, 4, 2, 4, 14],
+        [11, "ARGENTINOS", 10, 3, 4, 3, 13],
+        [12, "ATL. RAFAELA", 10, 3, 4, 3, 13],
+        [13, "ARSENAL", 10, 3, 3, 4, 12],
+        [14, "QUILMES", 10, 2, 5, 3, 11],
+        [15, "ALL BOYS", 10, 2, 4, 4, 10],
+        [16, "SAN MARTÍN (SJ)", 10, 3, 1, 6, 10],
+        [17, "INDEPENDIENTE", 10, 2, 4, 4, 10],
+        [18, "SAN LORENZO", 10, 2, 4, 4, 10],
+        [19, "TIGRE", 10, 0, 6, 4, 6],
+        [20, "UNIÓN", 10, 0, 3, 7, 3]
+      ]);
+
+      // Render
+      players.replace('#placeholder');
 
     </script>
   </body>
