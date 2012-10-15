@@ -92,8 +92,22 @@ DataTable.prototype.header = function(cols){
     o('<th>').append(el.text(isstr ? c : c[0])).appendTo(this.el.find('thead tr'));
   }
 
+  // set colspan in footer element
   this.el.find('tfoot tr td').attr('colspan', cols.length);
+
+  this.el.on('click', 'thead a', this.onsort.bind(this));
   return this;
+};
+
+/**
+ * Bind `click` event in table header
+ *
+ * @param {Object} ev jQuery object event
+ * @api public
+ */
+
+DataTable.prototype.onsort = function(ev){
+  ev.preventDefault();
 };
 
 /**
