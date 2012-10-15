@@ -21,7 +21,6 @@
 
 /* Pager */
 .data-table-component table tfoot td ul.pager li {
-  padding: 2px;
 }
 
 .data-table-component table tfoot td ul.pager li.page.active a {
