@@ -87,9 +87,9 @@ DataTable.prototype.header = function(cols){
 
   for (var i = 0, c = cols[0]; i < cols.length; i++, c = cols[i]) {
     var isstr = 'string' == type(c);
-    var cssname = !isstr && c[1] ? 'sort' + (c[2] == -1 ? ' desc' : ' asc') : '';
-    o('<th>', { text: isstr ? c : c[0], class: cssname})
-      .appendTo(this.el.find('thead tr'));
+    var cssname = !isstr && c[1] ? 'sort' : '';
+    var el = isstr ? o('<span>') : o('<a>', { href: '#', class: cssname });
+    o('<th>').append(el.text(isstr ? c : c[0])).appendTo(this.el.find('thead tr'));
   }
 
   this.el.find('tfoot tr td').attr('colspan', cols.length);
