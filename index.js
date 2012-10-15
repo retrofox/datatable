@@ -66,7 +66,7 @@ DataTable.prototype.add = function(row){
  * @api public
  */
 
-DataTable.prototype.addData = function(data){
+DataTable.prototype.load = function(data){
   if (!data.length) return this;
   for (var i = 0; i < data.length; i++) {
     this.add(data[i]);

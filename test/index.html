@@ -12,15 +12,16 @@
         min-height: 1000px;
       }
 
-      .data-table-component table {
-      }
-
       .data-table-component table tr td,
       .data-table-component table tr th {
         font-weight: normal;
         padding: 3px 15px;
         border: 1px solid #888;
         font-size: 13px;
+      }
+
+      .data-table-component table tr th a {
+        color: white;
       }
 
       .data-table-component table thead tr {
@@ -74,22 +75,22 @@
       // Create an instance
       var players = new DataTable({
         perpage: 6,
-        page: 1
+        page: 1,
       });
 
       // Set table header
       players.header([
-        ['P', true, 1],
+        ['P', true],
         ['Equipo', true],
         'PJ',
         'PG',
         'PE',
         'PP',
-        ['Pts', true, true]
+        ['Pts', true]
       ]);
 
-      // Enter body data
-      players.addData([
+      // load data
+      players.load([
         [1, "NEWELL`S", 10, 6, 4, 0, 22],
         [2, "RACING", 10, 6, 2, 2, 20],
         [3, "BELGRANO", 10, 5, 4, 1, 19],
