@@ -12,29 +12,54 @@
         min-height: 1000px;
       }
 
-      table {
+      .data-table-component table {
       }
 
-      table tr td,
-      table tr th {
+      .data-table-component table tr td,
+      .data-table-component table tr th {
         font-weight: normal;
         padding: 3px 15px;
         border: 1px solid #888;
         font-size: 13px;
       }
 
-      table thead tr {
+      .data-table-component table thead tr {
         background-color: #555;
         color: white;
       }
 
-      table tbody tr:nth-child(odd) {
+      .data-table-component table tbody tr:nth-child(odd) {
         background-color: #efe;
       }
 
-      table tbody tr:nth-child(even) {
+      .data-table-component table tbody tr:nth-child(even) {
         background-color: #ffe;
       }
+
+      .data-table-component ul.pager li {
+        display: block;
+        float: left;
+        margin: 2px;
+      }
+
+      .data-table-component ul.pager li a {
+        padding: 2px 5px;
+        border: 1px solid #eee;
+        background-color: #f2f2f2;
+        color: #66f;
+        text-decoration: none;
+      }
+
+      .data-table-component ul.pager li a:active {
+        color: #eee;
+        background-color: #666
+      }
+
+      .data-table-component ul.pager li.active a {
+        color: #f2f2f2;
+        background-color: #66f
+      }
+
 
     </style>
   </head>
@@ -47,7 +72,10 @@
       var DataTable = require('data-table');
 
       // Create an instance
-      var players = new DataTable();
+      var players = new DataTable({
+        perpage: 6,
+        page: 1
+      });
 
       // Set table header
       players.header([
