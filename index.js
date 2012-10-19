@@ -62,7 +62,7 @@ DataTable.prototype.add = function(row){
 /**
  * Add a lot of rows
  *
- *@param {Array} data
+ * @param {Array} data
  * @api public
  */
 
@@ -88,18 +88,37 @@ DataTable.prototype.header = function(cols){
   for (var i = 0, c = cols[0]; i < cols.length; i++, c = cols[i]) {
     var isstr = 'string' == type(c);
     var cssname = !isstr && c[1] ? 'sort' : '';
-    var el = isstr ?
-             o('<span>') :
-             o('<a>', { href: '#', class: cssname })
-               .click(this.onsort.bind(this, c[2] || 'numeric'));
+    var el = isstr ? o('<span>')
+                   : o('<a>', { href: '#', class: cssname })
+                      .click(this.onsort.bind(this, c[2] || 'numeric'));
 
-    o('<th>').append(el.text(isstr ? c : c[0])).appendTo(this.el.find('thead tr'));
+    o('<th>')
+      .append(el.text(isstr ? c : c[0]))
+      .appendTo(this.el.find('thead tr'));
   }
 
   // set colspan in footer element
   this.el.find('tfoot tr td').attr('colspan', cols.length);
-
   return this;
+};
+
+/**
+ * Render the table body
+ *
+ * @api private
+ */
+
+DataTable.prototype.body = function(){
+  var ini = this.opts.page * this.opts.perpage;
+  var end = Math.min(ini + this.opts.perpage, this.rows.length);
+
+  this.el.find('tbody').empty();
+  for (var j = ini, row = this.rows[ini]; j < end; j++, row = this.rows[j]) {
+    for (var i = 0, tr = o('<tr>'); i < row.length; i++) {
+      tr.append(o('<td>', { text: row[i] }));
+    }
+    this.el.find('tbody').append(tr);
+  }
 };
 
 /**
@@ -137,26 +156,7 @@ DataTable.prototype.sort = function(col, dir, type){
 
   sortBy(this.rows, col, dir, type);
   this.body();
-};
-
-
-/**
- * Render the table body
- *
- * @api private
- */
-
-DataTable.prototype.body = function(){
-  var ini = this.opts.page * this.opts.perpage;
-  var end = Math.min(ini + this.opts.perpage, this.rows.length);
-
-  this.el.find('tbody').empty();
-  for (var j = ini, row = this.rows[ini]; j < end; j++, row = this.rows[j]) {
-    for (var i = 0, tr = o('<tr>'); i < row.length; i++) {
-      tr.append(o('<td>', { text: row[i] }));
-    }
-    this.el.find('tbody').append(tr);
-  }
+  return this;
 };
 
 /**
