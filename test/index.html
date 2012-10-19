@@ -29,6 +29,35 @@
         color: white;
       }
 
+      .data-table-component table thead tr th a.sort {
+        user-select: none;
+        cursor: pointer;
+        position: relative;
+      }
+
+      .data-table-component table tr th {
+        padding-right: 25px;
+      }
+
+      .data-table-component table thead tr th a.sort:before {
+        position: absolute;
+        content: "\2B06";
+        font-size: 9px;
+        right: -15px;
+        top: 1px;
+        color: transparent;
+      }
+
+      .data-table-component table thead tr th a.sort.asc:before {
+        color: white;
+        content: "\2B06"
+      }
+
+      .data-table-component table thead tr th a.sort.desc:before {
+        color: white;
+        content: "\2B07"
+      }
+
       .data-table-component table tbody tr:nth-child(odd) {
         background-color: #efe;
       }
@@ -74,19 +103,18 @@
 
       // Create an instance
       var players = new DataTable({
-        perpage: 6,
-        page: 1,
+        perpage: 4
       });
 
       // Set table header
       players.header([
-        ['P', true],
-        ['Equipo', true],
+        ['P', true, 'numeric'],
+        ['Equipo', true, 'alpha'],
         'PJ',
         'PG',
         'PE',
         'PP',
-        ['Pts', true]
+        ['Pts', true, 'numeric']
       ]);
 
       // load data
@@ -112,6 +140,8 @@
         [19, "TIGRE", 10, 0, 6, 4, 6],
         [20, "UNIÓN", 10, 0, 3, 7, 3]
       ]);
+
+      players.sort(6, 1);
 
       // Render
       players.replace('#placeholder');
