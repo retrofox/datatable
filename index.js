@@ -88,27 +88,57 @@ DataTable.prototype.header = function(cols){
   for (var i = 0, c = cols[0]; i < cols.length; i++, c = cols[i]) {
     var isstr = 'string' == type(c);
     var cssname = !isstr && c[1] ? 'sort' : '';
-    var el = isstr ? o('<span>') : o('<a>', { href: '#', class: cssname });
+    var el = isstr ?
+             o('<span>') :
+             o('<a>', { href: '#', class: cssname })
+               .click(this.onsort.bind(this, c[2] || 'numeric'));
+
     o('<th>').append(el.text(isstr ? c : c[0])).appendTo(this.el.find('thead tr'));
   }
 
   // set colspan in footer element
   this.el.find('tfoot tr td').attr('colspan', cols.length);
 
-  this.el.on('click', 'thead a', this.onsort.bind(this));
   return this;
 };
 
 /**
  * Bind `click` event in table header
  *
+ * @param {string} type
  * @param {Object} ev jQuery object event
  * @api public
  */
 
-DataTable.prototype.onsort = function(ev){
+DataTable.prototype.onsort = function(type, ev){
   ev.preventDefault();
+  var el = o(ev.target);
+  var th = el.closest('th');
+
+  var col = th.prevAll().length;
+  var dir = el.hasClass('asc') ? -1 : 1;
+
+  this.sort(col, dir, type);
 };
+
+/**
+ * Sort the tabe data
+ *
+ * @api public
+ */
+
+DataTable.prototype.sort = function(col, dir, type){
+  var th = this.el.find('thead tr th').eq(col);
+  var el = th.find('a');
+
+  this.el.find('thead th a').removeClass('asc desc');
+  el[(dir > 0 ? 'add' : 'remove') + 'Class']('asc');
+  el[(dir < 0 ? 'add' : 'remove') + 'Class']('desc');
+
+  sortBy(this.rows, col, dir, type);
+  this.body();
+};
+
 
 /**
  * Render the table body
@@ -188,3 +218,26 @@ DataTable.prototype.render = function(){
 DataTable.prototype.replace = function(el){
   o(el).append(this.render());
 };
+
+/**
+ * Sort the given array by col and dir
+ *
+ * @param {Array} arr array to sort
+ * @param {Number} col
+ * @param {Number} dir
+ */
+
+function sortBy(arr, col, dir, type){
+  arr.sort(function(e0, e1){
+    var v0 = e0[col];
+    var v1 = e1[col];
+
+    switch(type) {
+      case 'numeric':
+        v0 = Number(v0);
+        v1 = Number(v1);
+      break;
+    }
+    return (v1 < v0 ? 1 : -1) * dir;
+  });
+}
