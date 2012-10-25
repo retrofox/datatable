@@ -5,7 +5,6 @@
 
 var inherit = require('inherit')
   , o = require('jquery')
-  , Emitter = require('emitter')
   , request = require('superagent')
   , type = require('type')
   , Pager = require('pager');
@@ -34,12 +33,6 @@ function DataTable(){
   this.rows = [];
   return this;
 }
-
-/**
- * Inherits from `Emitter.prototype`.
- */
-
-DataTable.prototype.__proto__ = Emitter.prototype;
 
 /**
  * Add new row to DataTable
@@ -193,7 +186,6 @@ DataTable.prototype.paginate = function(page, perpage){
 DataTable.prototype.onpager = function(page){
   this.config.pager.page = page;
   this.body();
-  this.emit('pager');
 };
 
 /**
