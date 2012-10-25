@@ -69,7 +69,6 @@ DataTable.prototype.load = function(data){
   return this;
 };
 
-
 /**
  * Set table header
  *
@@ -88,8 +87,8 @@ DataTable.prototype.header = function(cols){
                       .click(this.onsort.bind(this, c[2] || 'numeric'));
 
     o('<th>')
-      .append(el.text(isstr ? c : c[0]))
-      .appendTo(this.el.find('thead tr'));
+    .append(el.text(isstr ? c : c[0]))
+    .appendTo(this.el.find('thead tr'));
   }
 
   // set colspan in footer element
@@ -164,15 +163,20 @@ DataTable.prototype.sort = function(col, dir, type){
  * @api private
  */
 
-DataTable.prototype.paginate = function(page, perpage, total){
+DataTable.prototype.paginate = function(page, perpage){
+  this.config.pager.page = page;
+  this.config.pager.perpage = perpage;
+
   var pager = new Pager;
   pager.el.appendTo(this.el.find('tfoot td'));
 
-  pager
-    .total(total || this.rows.length)
+  this.el.find('tfoot td').append(
+    pager
+    .total(this.rows.length)
     .perpage(perpage || 10)
     .select(page || 0)
-    .render();
+    .render()
+  );
 
   // Emit `pager` event
   pager.on('show', this.onpager.bind(this));
