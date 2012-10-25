@@ -17,6 +17,10 @@ $ npm install datatable-component
   - pager
   - sort
 
+## Components UI dependencies
+
+  - [component/pager](https://github.com/component/pager)
+
 ## Example
 
 ```js
@@ -82,6 +86,11 @@ var menu = DataTable();
 ### Data#paginate(page, perpage)
 
 ### Data#sort(by, dir)
+
+## Test
+
+  - `make` to compile build.js
+  - Load with a browser test/index.html
 
 ## License
 
