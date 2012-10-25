@@ -22,21 +22,16 @@ module.exports = DataTable;
  * @api public
  */
 
-function DataTable(opts){
-  if (!(this instanceof DataTable)) return new DataTable(opts);
-
-  // Options
-  this.opts = opts || {};
-
-  // Options: paginator
-  this.opts.perpage = this.opts.perpage || 5;
-  this.opts.page = this.opts.page || 0;
+function DataTable(){
+  if (!(this instanceof DataTable)) return new DataTable;
+  this.config = {
+    sort:   { col: 0, dir: 1 } ,
+    pager:  { page: 0, perpage: 10 }
+  };
 
   // get markup template
   this.el = o(require('./template'));
-
   this.rows = [];
-
   return this;
 }
 
@@ -109,8 +104,9 @@ DataTable.prototype.header = function(cols){
  */
 
 DataTable.prototype.body = function(){
-  var ini = this.opts.page * this.opts.perpage;
-  var end = Math.min(ini + this.opts.perpage, this.rows.length);
+  var prg = this.config.pager;
+  var ini = prg.page * prg.perpage;
+  var end = Math.min(ini + prg.perpage, this.rows.length);
 
   this.el.find('tbody').empty();
   for (var j = ini, row = this.rows[ini]; j < end; j++, row = this.rows[j]) {
@@ -160,7 +156,7 @@ DataTable.prototype.sort = function(col, dir, type){
 };
 
 /**
- * Add paginator to table footer
+ * Add paginate to table footer
  *
  * Emit `pager` event
  *
@@ -168,19 +164,19 @@ DataTable.prototype.sort = function(col, dir, type){
  * @api private
  */
 
-DataTable.prototype.paginator = function(opts){
-  opts = opts || {};
+DataTable.prototype.paginate = function(page, perpage, total){
   var pager = new Pager;
   pager.el.appendTo(this.el.find('tfoot td'));
 
   pager
-    .total(opts.total || this.rows.length)
-    .perpage(opts.perpage)
-    .select(opts.page)
+    .total(total || this.rows.length)
+    .perpage(perpage || 10)
+    .select(page || 0)
     .render();
 
   // Emit `pager` event
   pager.on('show', this.onpager.bind(this));
+  return this;
 };
 
 /**
@@ -191,7 +187,7 @@ DataTable.prototype.paginator = function(opts){
  */
 
 DataTable.prototype.onpager = function(page){
-  this.opts.page = page;
+  this.config.pager.page = page;
   this.body();
   this.emit('pager');
 };
@@ -203,7 +199,6 @@ DataTable.prototype.onpager = function(page){
  */
 
 DataTable.prototype.render = function(){
-  this.paginator(this.opts);
   this.body();
   return this.el;
 };
