@@ -1,5 +1,5 @@
 {
-  "name": "data-table",
+  "name": "datatable-component",
   "repo": "retrofox/data-table",
   "description": "Table data manager. It allow us add/remove rows, sort, pager, and filter.",
   "version": "0.1.0",
