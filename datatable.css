@@ -1,0 +1,25 @@
+/* Table */
+.datatable-component table {
+  border-collapse: collapse;
+}
+
+/* Header */
+.datatable-component table thead {
+}
+
+.datatable-component table thead th {
+}
+
+/* Footer */
+.datatable-component table tfoot {
+}
+
+.datatable-component table tfoot td {}
+
+/* Pager */
+.datatable-component table tfoot td ul.pager li {
+}
+
+.datatable-component table tfoot td ul.pager li.page.active a {
+  text-decoration: none;
+}

@@ -1,5 +1,5 @@
 
-build: components index.js data-table.css template.js
+build: components index.js datatable.css template.js
 	@component build --dev
 
 template.js: template.html

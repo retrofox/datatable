@@ -1,6 +1,6 @@
 {
   "name": "datatable",
-  "repo": "retrofox/data-table",
+  "repo": "retrofox/datatable",
   "description": "it allows manage data in a table. Paginator, sorting, etc.",
   "version": "0.1.0",
   "author": "Damian Suarez <rdsuarez@gmail.com>",
@@ -20,7 +20,7 @@
     "template.js"
   ],
   "styles": [
-    "data-table.css"
+    "datatable.css"
   ],
   "license": "MIT"
 }
