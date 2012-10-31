@@ -9,7 +9,7 @@
 ## Installation
 
 ```
-$ npm install datatable-component
+$ component install retrofox/datatable
 ```
 
 ## Features
@@ -24,8 +24,8 @@ $ npm install datatable-component
 ## Example
 
 ```js
-// Include `data-table` component
-var DataTable = require('data-table');
+// Include `datatable` component
+var DataTable = require('datatable');
 
 // Create an instance
 var players = new DataTable()
