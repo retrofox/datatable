@@ -2,7 +2,7 @@
   "name": "datatable",
   "repo": "retrofox/datatable",
   "description": "it allows manage data in a table. Paginator, sorting, etc.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Damian Suarez <rdsuarez@gmail.com>",
   "twitter": "@retrofox",
   "keywords": ["datatable", "data", "sorttable"],
