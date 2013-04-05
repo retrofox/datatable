@@ -7,9 +7,6 @@
   "twitter": "@retrofox",
   "keywords": ["datatable", "data", "sorttable"],
   "dependencies": {
-    "component/inherit": "*",
-    "component/emitter": "*",
-    "visionmedia/superagent": "*",
     "component/pager": "*",
     "component/type": "*",
     "component/jquery": "*"

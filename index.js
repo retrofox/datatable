@@ -3,9 +3,7 @@
  * Component dependencies
  */
 
-var inherit = require('inherit')
-  , o = require('jquery')
-  , request = require('superagent')
+var o = require('jquery')
   , type = require('type')
   , Pager = require('pager');
 
