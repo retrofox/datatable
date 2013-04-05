@@ -7,11 +7,9 @@
   "twitter": "@retrofox",
   "keywords": ["datatable", "data", "sorttable"],
   "dependencies": {
-    "component/inherit": "*",
-    "component/emitter": "*",
-    "visionmedia/superagent": "*",
     "component/pager": "*",
     "component/type": "*",
+    "cristiandouce/tags-free": "*",
     "component/jquery": "*"
   },
   "development": {},

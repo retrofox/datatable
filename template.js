@@ -1,0 +1,1 @@
+module.exports = '<div class="datatable-component">\n  <table>\n    <thead><tr></tr></thead>\n    <tfoot><tr><td></td></tr></tfoot>\n    <tbody></tbody>\n  </table>\n</div>\n';
