@@ -5,6 +5,7 @@
 
 var o = require('jquery')
   , type = require('type')
+  , free = require('tags-free')
   , Pager = require('pager');
 
 /**
@@ -28,6 +29,7 @@ function DataTable(){
 
   // get markup template
   this.el = o(require('./template'));
+  this.columns = [];
   this.rows = [];
   return this;
 }
@@ -70,22 +72,45 @@ DataTable.prototype.load = function(data){
 DataTable.prototype.header = function(cols){
   if (!cols.length) return this;
 
-  for (var i = 0, c = cols[0]; i < cols.length; i++, c = cols[i]) {
-    var isstr = 'string' == type(c);
-    var cssname = !isstr && c[1] ? 'sort' : '';
-    var el = isstr ? o('<span>')
-                   : o('<a>', { href: '#', class: cssname })
-                      .click(this.onsort.bind(this, c[2] || 'numeric'));
-
-    o('<th>')
-    .append(el.text(isstr ? c : c[0]))
-    .appendTo(this.el.find('thead tr'));
+  for (var i = 0, col = cols[0]; i < cols.length; i++, col = cols[i]) {
+    this.column(col);
   }
 
-  // set colspan in footer element
-  this.el.find('tfoot tr td').attr('colspan', cols.length);
   return this;
 };
+
+/**
+ * Set column to table header
+ *
+ * @param {String|Array} rows
+ * @return {Datable} this
+ * @api private
+ */
+
+DataTable.prototype.column = function(column) {
+  var title = 0
+    , sort = 1
+    , sortType = 2
+    , isstr = 'string' == type(column)
+    , cssname = !isstr && column[sort] ? 'sort' : ''
+    , el;
+
+  var el = isstr ? o('<span>')
+                 : o('<a>', { href: '#', class: cssname })
+                    .click(this.onsort.bind(this, column[sortType] || 'numeric' ));
+
+  o('<th>')
+    .append( el.html( isstr ? column : column[title] ) )
+    .appendTo( this.el.find('thead tr') );
+
+  // add column to columns list
+  this.columns.push(column)
+
+  // set colspan in footer element
+  this.el.find('tfoot tr td').attr('colspan', this.columns.length);
+
+  return this;
+}
 
 /**
  * Render the table body
@@ -101,7 +126,7 @@ DataTable.prototype.body = function(){
   this.el.find('tbody').empty();
   for (var j = ini, row = this.rows[ini]; j < end; j++, row = this.rows[j]) {
     for (var i = 0, tr = o('<tr>'); i < row.length; i++) {
-      tr.append(o('<td>', { text: row[i] }));
+      tr.append(o('<td>', { html: row[i] }));
     }
     this.el.find('tbody').append(tr);
   }
@@ -225,7 +250,11 @@ function sortBy(arr, col, dir, type){
       case 'numeric':
         v0 = Number(v0);
         v1 = Number(v1);
-      break;
+        break;
+      case 'alpha':
+        v0 = free(v0).trim();
+        v1 = free(v1).trim();
+        break;
     }
     return (v1 < v0 ? 1 : -1) * dir;
   });
