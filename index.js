@@ -230,7 +230,7 @@ DataTable.prototype.render = function(){
  */
 
 DataTable.prototype.replace = function(el){
-  o(el).append(this.render());
+  o(el).html(this.render());
 };
 
 /**
