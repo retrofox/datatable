@@ -9,8 +9,8 @@
   "dependencies": {
     "component/pager": "*",
     "component/type": "*",
-    "cristiandouce/tags-free": "*",
-    "component/jquery": "*"
+    "component/dom": "*",
+    "cristiandouce/tags-free": "*"
   },
   "development": {},
   "scripts": [

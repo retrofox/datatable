@@ -3,7 +3,7 @@
  * Component dependencies
  */
 
-var o = require('jquery')
+var dom = require('dom')
   , type = require('type')
   , free = require('tags-free')
   , Pager = require('pager');
@@ -28,7 +28,7 @@ function DataTable(){
   };
 
   // get markup template
-  this.el = o(require('./template'));
+  this.el = dom(require('./template'));
   this.columns = [];
   this.rows = [];
   return this;
@@ -93,18 +93,26 @@ DataTable.prototype.column = function(column) {
     , sortType = 2
     , isstr = 'string' == type(column)
     , cssname = !isstr && column[sort] ? 'sort' : ''
+    , th = dom('<th>')
     , el;
 
-  var el = isstr ? o('<span>')
-                 : o('<a>', { href: '#', class: cssname })
-                    .click(this.onsort.bind(this, column[sortType] || 'numeric' ));
-
-  o('<th>')
-    .append( el.html( isstr ? column : column[title] ) )
-    .appendTo( this.el.find('thead tr') );
+  if(isstr) {
+    el = dom('<span>');
+    el.html( column );
+  } else {
+    el = dom('<a>');
+    el.href('#');
+    el.addClass(cssname);
+    el.on('click', this.onsort.bind(this, column[sortType] || 'numeric' ));
+    el.html( column[title] )
+  }
 
   // add column to columns list
   this.columns.push(column)
+
+  th.attr('data-index', this.columns.length - 1);
+  th.append( el );
+  th.appendTo( this.el.find('thead tr') );
 
   // set colspan in footer element
   this.el.find('tfoot tr td').attr('colspan', this.columns.length);
@@ -125,8 +133,10 @@ DataTable.prototype.body = function(){
 
   this.el.find('tbody').empty();
   for (var j = ini, row = this.rows[ini]; j < end; j++, row = this.rows[j]) {
-    for (var i = 0, tr = o('<tr>'); i < row.length; i++) {
-      tr.append(o('<td>', { html: row[i] }));
+    for (var i = 0, tr = dom('<tr>'); i < row.length; i++) {
+      var td = dom('<td>');
+      td.html(row[i]);
+      tr.append(td);
     }
     this.el.find('tbody').append(tr);
   }
@@ -142,10 +152,10 @@ DataTable.prototype.body = function(){
 
 DataTable.prototype.onsort = function(type, ev){
   ev.preventDefault();
-  var el = o(ev.target);
-  var th = el.closest('th');
+  var el = dom(ev.target);
+  var th = dom(ev.target.parentNode);
 
-  var col = th.prevAll().length;
+  var col = parseInt(th.attr('data-index'), 10);
   var dir = el.hasClass('asc') ? -1 : 1;
 
   this.sort(col, dir, type);
@@ -158,10 +168,10 @@ DataTable.prototype.onsort = function(type, ev){
  */
 
 DataTable.prototype.sort = function(col, dir, type){
-  var th = this.el.find('thead tr th').eq(col);
+  var th = this.el.find('thead tr th').at(col);
   var el = th.find('a');
 
-  this.el.find('thead th a').removeClass('asc desc');
+  this.el.find('thead th a').removeClass(['asc', 'desc']);
   el[(dir > 0 ? 'add' : 'remove') + 'Class']('asc');
   el[(dir < 0 ? 'add' : 'remove') + 'Class']('desc');
 
@@ -183,16 +193,16 @@ DataTable.prototype.paginate = function(page, perpage){
   this.config.pager.page = page;
   this.config.pager.perpage = perpage;
 
-  var pager = new Pager;
-  pager.el.appendTo(this.el.find('tfoot td'));
+  var pager = this.config.pager.pager ||
+                (this.config.pager.pager = new Pager);
 
-  this.el.find('tfoot td').append(
-    pager
+  pager
     .total(this.rows.length)
     .perpage(perpage || 10)
     .select(page || 0)
     .render()
-  );
+
+  pager.el.appendTo(this.el.find('tfoot td').get());
 
   // Emit `pager` event
   pager.on('show', this.onpager.bind(this));
@@ -230,7 +240,8 @@ DataTable.prototype.render = function(){
  */
 
 DataTable.prototype.replace = function(el){
-  o(el).append(this.render());
+  dom(el).empty();
+  dom(el).append(this.render());
 };
 
 /**
