@@ -7,12 +7,12 @@
   "twitter": "@retrofox",
   "keywords": ["datatable", "data", "sorttable"],
   "dependencies": {
-    "component/inherit": "*",
-    "component/emitter": "*",
-    "visionmedia/superagent": "*",
-    "component/pager": "*",
-    "component/type": "*",
-    "component/jquery": "*"
+    "component/inherit": "0.0.2",
+    "component/emitter": "1.0.1",
+    "visionmedia/superagent": "0.15.4",
+    "component/pager": "0.1.0",
+    "component/type": "1.0.0",
+    "component/jquery": "1.9.1"
   },
   "development": {},
   "scripts": [
