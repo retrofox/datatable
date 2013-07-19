@@ -12,7 +12,8 @@
     "visionmedia/superagent": "0.15.4",
     "component/pager": "0.1.0",
     "component/type": "1.0.0",
-    "component/jquery": "1.9.1"
+    "component/jquery": "1.9.1",
+    "cristiandouce/tags-free": "*"
   },
   "development": {},
   "scripts": [
