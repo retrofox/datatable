@@ -161,7 +161,7 @@ DataTable.prototype.paginate = function(page, perpage){
   this.config.pager.perpage = perpage;
 
   var pager = new Pager;
-  pager.el.appendTo(this.el.find('tfoot td'));
+  pager.el.appendTo(this.el.find('tfoot td').get(0));
 
   this.el.find('tfoot td').append(
     pager
