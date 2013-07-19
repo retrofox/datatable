@@ -3,10 +3,10 @@
  * Component dependencies
  */
 
-var o = require('jquery')
-  , type = require('type')
-  , free = require('tags-free')
-  , Pager = require('pager');
+var o = require('jquery');
+var type = require('type');
+var free = require('tags-free');
+var Pager = require('pager');
 
 /**
  * Expose `DataTable`
@@ -88,29 +88,33 @@ DataTable.prototype.header = function(cols){
  */
 
 DataTable.prototype.column = function(column) {
-  var title = 0
-    , sort = 1
-    , sortType = 2
-    , isstr = 'string' == type(column)
-    , cssname = !isstr && column[sort] ? 'sort' : ''
-    , el;
+  var title = 0;
+  var sort = 1;
+  var sortType = 2;
+  var isstr = 'string' == type(column);
+  var cssname = !isstr && column[sort] ? 'sort' : '';
+  var el;
 
-  var el = isstr ? o('<span>')
-                 : o('<a>', { href: '#', class: cssname })
-                    .click(this.onsort.bind(this, column[sortType] || 'numeric' ));
+  var el;
+  if (isstr) {
+    el = o('<span>');
+  } else {
+    el = o('<a>', { href: '#', class: cssname })
+    .click(this.onsort.bind(this, column[sortType] || 'numeric' ));
+  }
 
   o('<th>')
-    .append( el.html( isstr ? column : column[title] ) )
-    .appendTo( this.el.find('thead tr') );
+  .append( el.html( isstr ? column : column[title] ) )
+  .appendTo( this.el.find('thead tr') );
 
   // add column to columns list
-  this.columns.push(column)
+  this.columns.push(column);
 
   // set colspan in footer element
   this.el.find('tfoot tr td').attr('colspan', this.columns.length);
 
   return this;
-}
+};
 
 /**
  * Render the table body
